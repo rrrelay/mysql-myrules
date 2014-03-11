@@ -1,7 +1,7 @@
 {
-  "name": "mysql-proc-helper",
+  "name": "mysql-myrules",
   "version": "0.0.0",
-  "description": "abstracts away MariaDb",
+  "description": "mysql myrules",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
