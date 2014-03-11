@@ -1,0 +1,16 @@
+{
+  "name": "mysql-proc-helper",
+  "version": "0.0.0",
+  "description": "abstracts away MariaDb",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mike chevett",
+  "license": "none",
+  "dependencies": {
+    "q": "~1.0.0",
+    "mysql": "~2.1.0",
+    "lodash": "~2.4.1"
+  }
+}
