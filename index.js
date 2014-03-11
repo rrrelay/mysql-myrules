@@ -21,8 +21,8 @@ module.exports = function(procName, paramsArray){
 	dbConnection.query(commandStr, function(err, rows, fields){
 		if (err){
 			global.logger.error('database error running ' + procName);
-			d.reject();
-			throw err;
+			global.logger.error(err);
+			d.reject(err);
 		}
 
 		d.resolve({
