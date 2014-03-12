@@ -1,7 +1,7 @@
 var util = require('util');
 var mysql = require('mysql');
 var q = require('q');
-var _ = require('_');
+var _ = require('lodash');
 
 var CONNECTION_INFO = {
 	host     : 'localhost',
