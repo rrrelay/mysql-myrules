@@ -11,7 +11,7 @@ var CONNECTION_INFO = {
 
 
 function MySqlMyRules(connectionInfo){
-	connectionInfo = _.extend({}, connectionInfo, CONNECTION_INFO);
+	connectionInfo = _.extend({}, CONNECTION_INFO, connectionInfo) ;
 
 	return function(procName, paramsArray){
 		paramsArray = paramsArray || [];
