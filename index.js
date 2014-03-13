@@ -24,7 +24,7 @@ function MySqlMyRules(connectionInfo){
 
 		var commandStr = util.format('call banana.%s(%s);', procName, paramsStr);
 
-		global.logger.info(commandStr);
+		global.logger.debug(commandStr);
 		dbConnection.connect();
 		dbConnection.query(commandStr, function(err, rows, fields){
 			if (err){
