@@ -1,6 +1,6 @@
 {
   "name": "mysql-myrules",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "mysql myrules",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,7 @@
   "dependencies": {
     "q": "~1.0.0",
     "mysql": "~2.1.0",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "moment": "~2.5.1"
   }
 }

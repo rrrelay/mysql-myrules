@@ -1,3 +1,4 @@
+var moment = require('moment');
 var util = require('util');
 var mysql = require('mysql');
 var q = require('q');
@@ -13,13 +14,19 @@ var CONNECTION_INFO = {
 function MySqlMyRules(connectionInfo){
 	connectionInfo = _.extend({}, CONNECTION_INFO, connectionInfo) ;
 
-	return function(procName, paramsArray){
+	this.call = function(procName, paramsArray){
 		paramsArray = paramsArray || [];
 		var d = q.defer();
 		var dbConnection = mysql.createConnection(connectionInfo);
 		var paramsStr = paramsArray
-			.map(function(v){ return "'" + v + "'";})
+			.map(function(v){ 
+				if (v instanceof Date) {
+					return moment(v).format('YYYY-MM-DD HH:MM:SS');
+				}
+				return "'" + v + "'";
+			})
 			.join(', ');
+
 		var commandStr = util.format('call banana.%s(%s);', procName, paramsStr);
 
 		dbConnection.connect();
