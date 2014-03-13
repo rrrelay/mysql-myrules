@@ -19,16 +19,12 @@ function MySqlMyRules(connectionInfo){
 		var d = q.defer();
 		var dbConnection = mysql.createConnection(connectionInfo);
 		var paramsStr = paramsArray
-			.map(function(v){ 
-				if (v instanceof Date) {
-					return moment(v).format('YYYY-MM-DD HH:MM:SS');
-				}
-				return "'" + v + "'";
-			})
+			.map(dbConnection.escape.bind(dbConnection))
 			.join(', ');
 
 		var commandStr = util.format('call banana.%s(%s);', procName, paramsStr);
 
+		global.logger.info(commandStr);
 		dbConnection.connect();
 		dbConnection.query(commandStr, function(err, rows, fields){
 			if (err){
