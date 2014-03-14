@@ -10,6 +10,14 @@ var CONNECTION_INFO = {
 	password : ''
 };
 
+function log(){
+	var args = Array.prototype.slice(arguments);
+	if (global.logger && typeof global.logger.debug === 'function'){
+		global.logger.debug(args);
+	} else {
+		console.dir(args);
+	}
+}
 
 function MySqlMyRules(connectionInfo){
 	connectionInfo = _.extend({}, CONNECTION_INFO, connectionInfo) ;
@@ -24,7 +32,7 @@ function MySqlMyRules(connectionInfo){
 
 		var commandStr = util.format('call banana.%s(%s);', procName, paramsStr);
 
-		global.logger.debug(commandStr);
+		log(commandStr);
 		dbConnection.connect();
 		dbConnection.query(commandStr, function(err, rows, fields){
 			if (err){
