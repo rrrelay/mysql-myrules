@@ -11,11 +11,11 @@ var CONNECTION_INFO = {
 };
 
 function log(txt){
-	if (global.logger && typeof global.logger.debug === 'function'){
-		global.logger.debug(txt);
-	} else {
-		console.log(txt);
-	}
+	// if (global.logger && typeof global.logger.debug === 'function'){
+	// 	global.logger.debug(txt);
+	// } else {
+	// 	console.log(txt);
+	// }
 }
 
 function MySqlMyRules(connectionInfo){
