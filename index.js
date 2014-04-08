@@ -5,18 +5,10 @@ var q = require('q');
 var _ = require('lodash');
 
 var CONNECTION_INFO = {
-	host     : 'localhost',
-	user     : 'root',
-	password : ''
+	host     : process.env.MYSQL_MYRULES_HOST ||'localhost',
+	user     : process.env.MYSQL_MYRULES_USER || 'root',
+	password : process.env.MYSQL_MYRULES_PASS || ''
 };
-
-function log(txt){
-	// if (global.logger && typeof global.logger.debug === 'function'){
-	// 	global.logger.debug(txt);
-	// } else {
-	// 	console.log(txt);
-	// }
-}
 
 function MySqlMyRules(connectionInfo){
 	connectionInfo = _.extend({}, CONNECTION_INFO, connectionInfo) ;
@@ -30,7 +22,6 @@ function MySqlMyRules(connectionInfo){
 		strParams = strParams.substr(1, strParams.length-2);
 
 		var commandStr = util.format('call banana.%s(%s);', procName, strParams);
-		log(commandStr);
 
 		dbConnection.connect();
 		dbConnection.query(commandStr, paramsArray, function(err, rows, fields){
