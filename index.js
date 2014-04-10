@@ -7,7 +7,8 @@ var _ = require('lodash');
 var CONNECTION_INFO = {
 	host     : process.env.MYSQL_MYRULES_HOST ||'localhost',
 	user     : process.env.MYSQL_MYRULES_USER || 'root',
-	password : process.env.MYSQL_MYRULES_PASS || ''
+	password : process.env.MYSQL_MYRULES_PASS || '',
+	port : process.env.MYSQL_MYRULES_PORT || 3306
 };
 
 function MySqlMyRules(connectionInfo){
