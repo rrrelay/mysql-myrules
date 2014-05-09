@@ -1,4 +1,3 @@
-var moment = require('moment');
 var util = require('util');
 var mysql = require('mysql');
 var q = require('q');
