@@ -1,6 +1,6 @@
 {
   "name": "mysql-myrules",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "mysql myrules",
   "main": "index.js",
   "scripts": {
