@@ -9,8 +9,8 @@
   "author": "mike chevett",
   "license": "none",
   "dependencies": {
-    "q": "~1.0.0",
-    "mysql": "~2.1.0",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "pg": "^3.2.0",
+    "q": "~1.0.0"
   }
 }

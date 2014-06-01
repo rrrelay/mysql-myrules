@@ -1,42 +1,55 @@
 var util = require('util');
-var mysql = require('mysql');
+var pg = require('pg');
 var q = require('q');
 var _ = require('lodash');
 
 var CONNECTION_INFO = {
 	host     : process.env.MYSQL_MYRULES_HOST ||'localhost',
 	user     : process.env.MYSQL_MYRULES_USER || 'root',
-	password : process.env.MYSQL_MYRULES_PASS || '',
-	port : process.env.MYSQL_MYRULES_PORT || 3306
+	database : process.env.MYSQL_MYRULES_DATABASE || 'relay',
+	password : process.env.MYSQL_MYRULES_PASS || ''
 };
 
-function MySqlMyRules(connectionInfo){
+
+function _buildConnectionString(connectionInfo){
 	connectionInfo = _.extend({}, CONNECTION_INFO, connectionInfo) ;
+
+	return util.format('postgres://%s:%s@%s/%s', 
+		connectionInfo.user,
+		connectionInfo.password,
+		connectionInfo.host,
+		connectionInfo.database
+	);
+}
+
+function MySqlMyRules(connectionInfo){
+
+	var connectionString = _buildConnectionString(connectionInfo);
 
 	this.call = function(procName, paramsArray){
 		paramsArray = paramsArray || [];
 		var d = q.defer();
-		var dbConnection = mysql.createConnection(connectionInfo);
 
-		var strParams = Array(paramsArray.length + 1).join(" ?,");
-		strParams = strParams.substr(1, strParams.length-2);
-
-		var commandStr = util.format('call banana.%s(%s);', procName, strParams);
-
-		dbConnection.connect();
-		dbConnection.query(commandStr, paramsArray, function(err, rows, fields){
+		var strParams = paramsArray.map(function(p, i){ return '$' + (i+1); });
+		pg.connect(connectionString, function(err, client, done){
 			if (err){
-				global.logger.error('database error running ' + procName);
-				global.logger.error(err);
-				d.reject(err);
+				// from the pg readme, it appears i don't call done for errors?
+				return d.reject(err);
 			}
 
-			d.resolve({
-				rows: rows, 
-				fields: fields
+			var strQuery = util.format('select * from %s(%s);', procName, strParams);
+			client.query(strQuery, paramsArray, function(err, result){
+				done();
+
+				if (err) {
+					console.dir(err);
+					return d.reject(err);
+				}
+
+				console.dir(result);
+				d.resolve(result);
 			});
 		});
-		dbConnection.end();
 
 		return d.promise;
 	};
