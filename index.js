@@ -46,7 +46,6 @@ function MySqlMyRules(connectionInfo){
 					return d.reject(err);
 				}
 
-				console.dir(result);
 				d.resolve(result);
 			});
 		});
