@@ -25,8 +25,12 @@ function _buildConnectionString(connectionInfo){
 function MySqlMyRules(connectionInfo){
 
 	var connectionString = _buildConnectionString(connectionInfo);
+	
+	this.transaction = function(procName, paramsArray){
+		return this.call(procName, paramsArray, true);
+	};
 
-	this.call = function(procName, paramsArray){
+	this.call = function(procName, paramsArray, useTransaction){
 		paramsArray = paramsArray || [];
 		var d = q.defer();
 
@@ -38,6 +42,14 @@ function MySqlMyRules(connectionInfo){
 			}
 
 			var strQuery = util.format('select * from %s(%s);', procName, strParams);
+			if (useTransaction){
+				strQuery = 
+					'BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE\n' + 
+					strQuery + 
+					'\nCOMMIT;' + 
+					'\nEND;';
+			}
+
 			client.query(strQuery, paramsArray, function(err, result){
 				done();
 
